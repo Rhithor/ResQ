@@ -9,8 +9,21 @@ async function main() {
 
     console.log("Cleaning up database...");
     await prisma.victim.deleteMany();
+    await prisma.volunteer.deleteMany();
+    await prisma.disaster.deleteMany();
 
-    console.log("Seeding victims...");
+    console.log("Seeding disaster...");
+    const flood = await prisma.disaster.create({
+        data: {
+            name: "Great Monsoon Flood 2026",
+            type: "Flood",
+            location: "Chennai, TN",
+            description: "Heavy rainfall causing urban flooding in coastal areas.",
+            is_active: true
+        },
+    });
+    
+    console.log("Seeding victims linked to disaster...");
     await prisma.victim.createMany({
         data : [
             {
@@ -18,7 +31,8 @@ async function main() {
                 email: "john@gmail.com",
                 password: hashedPassword,
                 emergency_type: "Flood",
-                status: "open"
+                status: "open",
+                disasterId: flood.id,
             },
             {
                 name: "John Smith",
@@ -26,6 +40,7 @@ async function main() {
                 password: hashedPassword,
                 emergency_type: "Medical",
                 status: "in_progress",
+                disasterId: flood.id
             },
         ],
     });

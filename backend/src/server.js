@@ -4,7 +4,7 @@ import volunteerRoutes from "./routes/volunteerRoutes.js";
 import {config} from "dotenv";
 import {connectDB, disconnectDB} from './config/db.js';
 import authRoutes from "./routes/authRoutes.js";
-
+import disasterRoutes from "./routes/disasterRoutes.js";
 
 config();
 connectDB();
@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", victimRoutes);
 app.use("/api/auth", volunteerRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/disasters", disasterRoutes);
 
 const PORT = 5000;
 app.listen(PORT, () => {
