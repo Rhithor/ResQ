@@ -1,6 +1,8 @@
+// Prisma schema for ResQ backend
+// Uses the existing DATABASE_URL in .env (Postgres / Supabase)
+
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
