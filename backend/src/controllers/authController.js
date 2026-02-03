@@ -85,7 +85,7 @@ export const registerVolunteer = async (req, res) => {
                 email,
                 password: hashedPassword,
                 resource_type,
-                availability: true
+                is_available: true
             }
         });
         const token = generateToken(newVolunteer.id, res, "volunteer");
@@ -98,7 +98,7 @@ export const registerVolunteer = async (req, res) => {
     }
 };
 
-export const volunteerLogin = async (req, res) => {
+export const loginVolunteer = async (req, res) => {
     try {
         const { email, password } = req.body;
         const volunteer = await prisma.volunteer.findUnique({where: {email}});
@@ -110,7 +110,7 @@ export const volunteerLogin = async (req, res) => {
         res.status(200).json({
             message: "Login Successful",
             token,
-            volunteer: {id: volunteer.id, name: volunteer.name, role: "Volunteer"}
+            volunteer: {id: volunteer.id, name: volunteer.name, role: "volunteer"}
         });
     } catch (error){
         res.status(500).json({ error: "Internal server error"});

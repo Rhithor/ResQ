@@ -1,10 +1,9 @@
 import express from "express";
+import { protect } from "../middleware/authMiddleware.js";
+import { updateVictimStatus } from "../controllers/victimController.js";
 
 const router = express.Router();
 
-router.post('/', (req, res) => {
-    res.json({ httpMethod: "post for victims to post SOS signals"});
-});
-
+router.put("/status", protect, updateVictimStatus);
 
 export default router;
