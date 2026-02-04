@@ -24,14 +24,18 @@ export const getDisasterWatchlist = async (req, res) => {
 
 // Victim chooses to join a specific disaster watchlist(essentially adding them to the disaster table)
 export const joinDisaster = async (req, res) => {
+
     const { disasterId } = req.body;
     try {
+        console.log("User ID from token:", req.user.id);
+        console.log("Disaster ID from body:", disasterId);
         const updatedVictim = await prisma.victim.update({
             where: { id: req.user.id},
             data: { disasterId: disasterId }
         });
         res.status(200).json({ message: "You have been added to the disaster watchlist"})
     } catch (error) {
+        console.error("DETAILED ERROR:", error);
         res.status(500).json({ error: "Invalid disaster ID or Server Error " });
     }
 };
