@@ -58,3 +58,40 @@ export const getNearbyVictims = async (req, res) => {
         res.status(500).json({ error: "Error fetching nearby victims "});
     };
 };
+
+
+export const getAvailableVictims = async(req, res) => {
+    const { disasterId } = req.params;
+    try {
+        const victims = await prisma.victim.findMany({
+            where: {
+                disasterId: disasterId,
+                status: "open"
+            },
+            select: {
+                id: true,
+                name: true,
+                emergency_type: true,
+                status: true
+            }
+            
+        });
+        res.status(200).json(victims);
+    } catch (error){
+        res.status(500).json({ error: "Error fetching victims "});
+    };
+}
+
+
+export const resolveVictim = async (req, res) => {
+    const { victimId } = req.params;
+    try {
+        await prisma.victim.update({
+            where: { id: victimId },
+            data: { status: "resolved" } // updating the victim status to resolved if a volunteer has reached out to them
+        });
+        res.status(200).json({ message: "Resuce Mission Completed! Victim is safe."});
+    } catch (error) {
+        res.status(500).json({ error: "Could not resolve rescue." });
+    }
+}
