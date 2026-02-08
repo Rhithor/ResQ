@@ -11,7 +11,6 @@ import { Server } from "socket.io";
 import http from "http"
 
 
-
 config();
 connectDB();
 
@@ -25,6 +24,7 @@ export const io = new Server(server, {
         credentials: true
     }
 });
+app.set("socketio", io);
 app.use(express.json());
 app.use(cors({
     origin: "http://localhost:3000",

@@ -5,9 +5,9 @@ import { generateToken } from "../utils/generateToken.js";
 
 export const registerVictim = async (req, res) => {
     try {
-        const { name, email, password, emergency_type} = req.body;
-        if (!name || !email || !password || !emergency_type){
-            return res.status(400).json({error: "Missing required fields"});
+        const { name, email, password, emergency_type, latitude, longitude} = req.body;
+        if (!name || !email || !password || !emergency_type || latitude === undefined || longitude === undefined ){
+            return res.status(400).json({error: "Missing required fields or location coordinates"});
         }
         const hashedPassword = await bcrypt.hash(password, 10);
         const newVictim = await prisma.victim.create({
@@ -19,6 +19,11 @@ export const registerVictim = async (req, res) => {
                 status: "open"
             }
         });
+        await prisma.$executeRaw`
+            UPDATE victim
+            SET location = ST_GeomFromText(${`POINT(${longitude} ${latitude})`}, 4326)::geography
+            WHERE id = ${newVictim.id}::uuid
+        `;
         const token = generateToken(newVictim.id, res, "victim");
         res.status(201).json({message: "Victim registered!", token,  id: newVictim.id});
 
@@ -74,9 +79,9 @@ export const logout = async (req, res) => {
 
 export const registerVolunteer = async (req, res) => {
     try {
-        const { name, email, password, resource_type } = req.body;
-        if (!name || !email || !password || !resource_type ){
-            return res.status(400).json({error: "Missing required fields"});
+        const { name, email, password, resource_type, latitude, longitude } = req.body;
+        if (!name || !email || !password || !resource_type || latitude === undefined || longitude === undefined ){
+            return res.status(400).json({error: "Missing required fields or location coordinates missing"});
         }
         const hashedPassword = await bcrypt.hash(password, 10);
         const newVolunteer = await prisma.volunteer.create({
@@ -88,6 +93,11 @@ export const registerVolunteer = async (req, res) => {
                 is_available: true
             }
         });
+        await prisma.$executeRaw`
+            UPDATE volunteer
+            SET location = ST_GeomFromText(${`POINT(${longitude} ${latitude})`}, 4326)::geography
+            WHERE id = ${newVolunteer.id}::uuid
+        `;
         const token = generateToken(newVolunteer.id, res, "volunteer");
         res.status(201).json({ message: "Volunteer Registered!", token,id: newVolunteer.id});
 

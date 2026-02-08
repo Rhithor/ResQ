@@ -17,7 +17,7 @@ model victim {
   password       String
   emergency_type String
   status         String?                  @default("open")
-  location       Unsupported("geography")?
+  location       Unsupported("geography(Point, 4326)")?
   created_at     DateTime?                @default(now()) @db.Timestamptz(6)
   disasterId     String?                  @db.Uuid
   disaster       disaster?                @relation(fields: [disasterId], references: [id])
@@ -30,14 +30,14 @@ model volunteer {
   password      String
   resource_type String
   is_available  Boolean?                 @default(true)
-  location      Unsupported("geography")?
+  location       Unsupported("geography(Point, 4326)")?
   last_updated  DateTime?                @default(now()) @db.Timestamptz(6)
 }
 model disaster {
   id            String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid   
   name          String                   
   type          String
-  location      String
+  location       Unsupported("geography(Point, 4326)")?
   description   String?
   is_active     Boolean                  @default(true)
   createdAt     DateTime                 @default(now())
