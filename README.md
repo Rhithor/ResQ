@@ -42,44 +42,44 @@ cd resq-radar
 2. Backend Configuration
 The backend handles the WebSocket connections and database interactions.
 
-cd backend
-npm install
+    cd backend
+    npm install
 
-Environment Variables: Create a .env file in the backend directory with the following credentials:
+    Environment Variables: Create a .env file in the backend directory with the following credentials:
 
-PORT=5000
-DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@db.supabase.co:5432/postgres"
+    PORT=5000
+    DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@db.supabase.co:5432/postgres"
 
-Database Migration: Run Prisma to sync your local schema with the remote Supabase database.
+    Database Migration: Run Prisma to sync your local schema with the remote Supabase database.
 
-npx prisma migrate dev --name init
+    npx prisma migrate dev --name init
 
-Start the Server:
+    Start the Server:
 
-npm run dev
+    npm run dev
 
 
 3. Frontend Configuration
-Open a new terminal window to set up the client-side dashboard.
+    Open a new terminal window to set up the client-side dashboard.
 
-cd ../frontend
-npm install
+    cd ../frontend
+    npm install
 
-Environment Variables: Create a .env file in the frontend directory:
+    Environment Variables: Create a .env file in the frontend directory:
 
-NEXT_PUBLIC_SOCKET_URL=http://localhost:5000
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your_generated_secret_string
-GOOGLE_CLIENT_ID=your_google_cloud_client_id
-GOOGLE_CLIENT_SECRET=your_google_cloud_client_secret
+    NEXT_PUBLIC_SOCKET_URL=http://localhost:5000
+    NEXTAUTH_URL=http://localhost:3000
+    NEXTAUTH_SECRET=your_generated_secret_string
+    GOOGLE_CLIENT_ID=your_google_cloud_client_id
+    GOOGLE_CLIENT_SECRET=your_google_cloud_client_secret
 
-Start the Application:
+    Start the Application:
 
-npm run dev
+    npm run dev
 
-Open http://localhost:3000 in your browser to access the dashboard.
+    Open http://localhost:3000 in your browser to access the dashboard.
 
 
-License
+LICENSE
 
 This project is licensed under the MIT License
