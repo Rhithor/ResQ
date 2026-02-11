@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 
 const socket = io("http://localhost:5000");
+//const alertSound = typeof window !== "undefined" ? new Audio("/sounds/alert.mp3");
 
 export default function VolunteerDashboard() {
   const { data: session, status } = useSession();
@@ -28,6 +29,7 @@ export default function VolunteerDashboard() {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeVictim, setActiveVictim] = useState(null);
+  //const [audioEnabled, setAudioEnabled] = useState(false);
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login");
@@ -59,12 +61,13 @@ export default function VolunteerDashboard() {
       setAlerts((prev) => {
         // Checking for duplicates
         const currentAlerts = prev || [];
-        const exists = currentAlerts.some(
+        const exists = currentAlerts.soame(
           (alert) => alert.victimName === data.victimName,
         );
         if (exists) return currentAlerts;
         return [data, ...prev];
       }); // adding the new alert to the top of our list
+      
     });
     socket.on("RESOLVE_EMERGENCY", (id) => {
       setAlerts((prev) => prev.filter((alert) => alert.id !== id));
