@@ -36,7 +36,7 @@ Installation & Setup
 Follow these steps to get the system running locally.
 
 1. Clone the Repository
-git clone https://github.com/yourusername/resq-radar.git
+git clone https://github.com/Rhithor/ResQ.git
 cd resq-radar
 
 2. Backend Configuration
