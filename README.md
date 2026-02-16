@@ -79,7 +79,3 @@ The backend handles the WebSocket connections and database interactions.
 
     Open http://localhost:3000 in your browser to access the dashboard.
 
-
-LICENSE
-
-This project is licensed under the MIT License
